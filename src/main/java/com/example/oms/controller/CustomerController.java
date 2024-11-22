@@ -3,6 +3,7 @@ package com.example.oms.controller;
 import com.example.oms.dto.CustomerRequest;
 import com.example.oms.entity.Customer;
 import com.example.oms.service.CustomerService;
+import com.example.oms.util.Constants;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping(Constants.API.API_VERSION_V1 + Constants.API.CUSTOMERS)
 @RequiredArgsConstructor
 public class CustomerController {
 

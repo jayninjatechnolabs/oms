@@ -3,6 +3,7 @@ package com.example.oms.controller;
 import com.example.oms.dto.ProductRequest;
 import com.example.oms.entity.Product;
 import com.example.oms.service.ProductService;
+import com.example.oms.util.Constants;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping(Constants.API.API_VERSION_V1 + Constants.API.PRODUCTS)
 @RequiredArgsConstructor
 public class ProductController {
 

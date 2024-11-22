@@ -8,6 +8,7 @@ import com.example.oms.entity.Product;
 import com.example.oms.service.CustomerService;
 import com.example.oms.service.OrderService;
 import com.example.oms.service.ProductService;
+import com.example.oms.util.Constants;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping(Constants.API.API_VERSION_V1 + Constants.API.ORDERS)
 @RequiredArgsConstructor
 public class OrderController {
 
@@ -47,7 +48,7 @@ public class OrderController {
     return ResponseEntity.status(HttpStatus.CREATED).body(order.getOrderId());
   }
 
-  @GetMapping("/{orderId}")
+  @GetMapping(Constants.API.ORDER_BY_ID)
   public ResponseEntity<Order> getOrder(@PathVariable String orderId) {
     return ResponseEntity.ok(orderService.getById(orderId));
   }

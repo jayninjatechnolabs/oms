@@ -1,14 +1,21 @@
 package com.example.oms.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.oms.dto.ProductRequest;
 import com.example.oms.entity.Product;
 import com.example.oms.service.impl.ProductServiceImpl;
+import com.example.oms.util.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,9 +26,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(ProductController.class)
@@ -55,7 +59,7 @@ public class ProductControllerTest {
   public void testCreateProduct() throws Exception {
     when(productService.createProduct(any(ProductRequest.class))).thenReturn(product);
 
-    mockMvc.perform(post("/products")
+    mockMvc.perform(post(Constants.API.API_VERSION_V1 + Constants.API.PRODUCTS)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(productRequest)))
         .andExpect(status().isCreated())
@@ -73,7 +77,7 @@ public class ProductControllerTest {
 
     when(productService.getAllProducts()).thenReturn(products);
 
-    mockMvc.perform(get("/products"))
+    mockMvc.perform(get(Constants.API.API_VERSION_V1 + Constants.API.PRODUCTS))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.[0].productId").value(product.getProductId()))
         .andExpect(jsonPath("$.[0].name").value(product.getName()))
@@ -86,7 +90,7 @@ public class ProductControllerTest {
   public void testGetAllProducts_NoProducts() throws Exception {
     when(productService.getAllProducts()).thenReturn(new ArrayList<>());
 
-    mockMvc.perform(get("/products"))
+    mockMvc.perform(get(Constants.API.API_VERSION_V1 + Constants.API.PRODUCTS))
         .andExpect(status().isNoContent());
 
     verify(productService, times(1)).getAllProducts();

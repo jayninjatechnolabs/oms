@@ -22,6 +22,7 @@ import com.example.oms.entity.Product;
 import com.example.oms.service.impl.CustomerServiceImpl;
 import com.example.oms.service.impl.OrderServiceImpl;
 import com.example.oms.service.impl.ProductServiceImpl;
+import com.example.oms.util.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ public class OrderControllerTest {
     when(productService.getById(anyList())).thenReturn(List.of(product));
     when(orderService.createOrder(anyList(), any(Customer.class))).thenReturn(order);
 
-    mockMvc.perform(post("/orders")
+    mockMvc.perform(post(Constants.API.API_VERSION_V1 + Constants.API.ORDERS)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(orderRequest)))
         .andExpect(status().isCreated())
@@ -128,7 +129,9 @@ public class OrderControllerTest {
   public void testGetOrder() throws Exception {
     when(orderService.getById(anyString())).thenReturn(order);
 
-    mockMvc.perform(get("/orders/{orderId}", order.getOrderId()))
+    mockMvc.perform(
+            get(Constants.API.API_VERSION_V1 + Constants.API.ORDERS + Constants.API.ORDER_BY_ID,
+                order.getOrderId()))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.orderId").value(order.getOrderId()))
         .andExpect(jsonPath("$.orderDate").isNotEmpty())

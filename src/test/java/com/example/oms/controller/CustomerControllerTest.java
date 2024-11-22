@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.oms.dto.CustomerRequest;
 import com.example.oms.entity.Customer;
 import com.example.oms.service.impl.CustomerServiceImpl;
+import com.example.oms.util.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class CustomerControllerTest {
   public void testCreateCustomer() throws Exception {
     when(customerService.createAndSaveCustomer(any(CustomerRequest.class))).thenReturn(customer);
 
-    mockMvc.perform(post("/customers")
+    mockMvc.perform(post(Constants.API.API_VERSION_V1 + Constants.API.CUSTOMERS)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(customerRequest)))
         .andExpect(status().isCreated())
@@ -78,7 +79,7 @@ public class CustomerControllerTest {
 
     when(customerService.getAllCustomers()).thenReturn(customers);
 
-    mockMvc.perform(get("/customers"))
+    mockMvc.perform(get(Constants.API.API_VERSION_V1 + Constants.API.CUSTOMERS))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.[0].customerId").value(customer.getCustomerId()))
         .andExpect(jsonPath("$.[0].name").value(customer.getName()))
@@ -91,7 +92,7 @@ public class CustomerControllerTest {
   public void testGetAllCustomers_NoCustomers() throws Exception {
     when(customerService.getAllCustomers()).thenReturn(new ArrayList<>());
 
-    mockMvc.perform(get("/customers"))
+    mockMvc.perform(get(Constants.API.API_VERSION_V1 + Constants.API.CUSTOMERS))
         .andExpect(status().isNoContent());
 
     verify(customerService, times(1)).getAllCustomers();
