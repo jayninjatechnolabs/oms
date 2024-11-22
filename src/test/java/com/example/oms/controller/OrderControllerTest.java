@@ -19,9 +19,9 @@ import com.example.oms.entity.Customer;
 import com.example.oms.entity.Order;
 import com.example.oms.entity.OrderItem;
 import com.example.oms.entity.Product;
-import com.example.oms.service.CustomerService;
-import com.example.oms.service.OrderService;
-import com.example.oms.service.ProductService;
+import com.example.oms.service.impl.CustomerServiceImpl;
+import com.example.oms.service.impl.OrderServiceImpl;
+import com.example.oms.service.impl.ProductServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -47,13 +47,13 @@ public class OrderControllerTest {
   private MockMvc mockMvc;
 
   @MockBean
-  private OrderService orderService;
+  private OrderServiceImpl orderService;
 
   @MockBean
-  private ProductService productService;
+  private ProductServiceImpl productService;
 
   @MockBean
-  private CustomerService customerService;
+  private CustomerServiceImpl customerService;
 
   private ObjectMapper objectMapper;
   private Order order;
@@ -116,7 +116,7 @@ public class OrderControllerTest {
     mockMvc.perform(post("/orders")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(orderRequest)))
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andExpect(content().string(order.getOrderId()));
 
     verify(customerService, times(1)).getById(anyString());

@@ -22,7 +22,7 @@ public class CustomerController {
 
   @PostMapping
   public ResponseEntity<Customer> createCustomer(@RequestBody CustomerRequest customerRequest) {
-    Customer customer = customerService.createCustomer(customerRequest);
+    Customer customer = customerService.createAndSaveCustomer(customerRequest);
     return ResponseEntity.status(HttpStatus.CREATED).body(customer);
   }
 

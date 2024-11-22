@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.oms.dto.CustomerRequest;
 import com.example.oms.entity.Customer;
-import com.example.oms.service.CustomerService;
+import com.example.oms.service.impl.CustomerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class CustomerControllerTest {
   private MockMvc mockMvc;
 
   @MockBean
-  private CustomerService customerService;
+  private CustomerServiceImpl customerService;
 
   private ObjectMapper objectMapper;
   private Customer customer;
@@ -58,7 +58,7 @@ public class CustomerControllerTest {
 
   @Test
   public void testCreateCustomer() throws Exception {
-    when(customerService.createCustomer(any(CustomerRequest.class))).thenReturn(customer);
+    when(customerService.createAndSaveCustomer(any(CustomerRequest.class))).thenReturn(customer);
 
     mockMvc.perform(post("/customers")
             .contentType(MediaType.APPLICATION_JSON)
@@ -68,7 +68,7 @@ public class CustomerControllerTest {
         .andExpect(jsonPath("$.name").value(customer.getName()))
         .andExpect(jsonPath("$.orderCount").value(customer.getOrderCount()));
 
-    verify(customerService, times(1)).createCustomer(any(CustomerRequest.class));
+    verify(customerService, times(1)).createAndSaveCustomer(any(CustomerRequest.class));
   }
 
   @Test

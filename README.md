@@ -80,7 +80,7 @@ The Order Management System (OMS) is a robust platform for handling customer ord
 
 ### Screenshots
 #### Class Diagram
-![class diagram](screenshots/ClassDiagram.png)
+![class diagram](screenshots/ClassDiagram.svg)
 
 #### Swagger home
 ![swagger](screenshots/swagger_home.png)

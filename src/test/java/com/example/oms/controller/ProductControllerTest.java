@@ -7,14 +7,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.oms.dto.ProductRequest;
 import com.example.oms.entity.Product;
-import com.example.oms.service.ProductService;
+import com.example.oms.service.impl.ProductServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,7 +31,7 @@ public class ProductControllerTest {
   private MockMvc mockMvc;
 
   @MockBean
-  private ProductService productService;
+  private ProductServiceImpl productService;
 
   private ObjectMapper objectMapper;
   private Product product;
